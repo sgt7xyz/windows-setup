@@ -41,10 +41,17 @@ win11-setup.ps1 --> win11-functions.ps1 --> winget, PSWindowsUpdate, registry, s
 
 ## Quick start
 
+1. Record your current execution policy so you can restore it later. Run this in PowerShell and
+   write down the value it prints, for example `Undefined` or `Restricted`.
+
+   ```powershell
+   Get-ExecutionPolicy -Scope CurrentUser
+   ```
+
 1. Allow local scripts to run for your user. Run this once in PowerShell and answer **Y**.
 
    ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser
    ```
 
 1. Clone this repository, or download and extract it.
@@ -153,6 +160,15 @@ Logs go to `C:\windows-setup\logs`. Remove the tasks in Task Scheduler if you no
 - Step 12 registers tasks that run as SYSTEM. Keep `C:\windows-setup` writable only by
   administrators, because anyone who can edit the copied script can run code as SYSTEM.
 - No credentials are stored. Set your Git name and email by hand after step 10.
+- Set your execution policy back to the way it was before you ran the script. Do this after you
+  finish the menu, not before. Use the value you recorded in step 1 of the quick start, then confirm
+  the `CurrentUser` row matches it. As of this writing, the default execution policy on a new
+  install of Windows 11 is `Undefined`, so that is the value most people will record.
+
+  ```powershell
+  Set-ExecutionPolicy -ExecutionPolicy <value-you-recorded> -Scope CurrentUser
+  Get-ExecutionPolicy -List
+  ```
 
 ## Testing
 
